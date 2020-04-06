@@ -40,7 +40,7 @@ char *_strcpy(char *dest, char *src)
  * @bytes_read: size of string
  * Return: prints in screen $ and received commands
  */
-char **get_flags(char *string, ssize_t bytes_read)
+char **get_flags(char *string, int size)
 {
 	char **arguments;
 	int i = 0, j = 0;
@@ -55,26 +55,41 @@ char **get_flags(char *string, ssize_t bytes_read)
 		j++;
 	}
 	token = strtok(string, " ");
-	arguments = malloc(sizeof(char *) * j);
+	arguments = malloc(sizeof(char *) * size);
 	while (token != NULL)
 	{		
 		arguments[i] = malloc(sizeof(char) * _strlen(token));
 		arguments[i] = token;
-		printf("len token = %i \n", _strlen(token));
+		printf("token get_flags = %s\n", token);
 		token = strtok(NULL, " ");
 		i++;
 	}
 	arguments[i] = NULL;
 	arguments[i - 1] = strtok(arguments[i - 1], NEW_LINE);
-	i = 0;
-	while (arguments[i] != NULL)
-	{
-		printf("arguments[i]= %s\n", arguments[i]);
-		i++;
-	}
 	return (arguments);
 }
+/**
+ * get_flags - basic shell
+ * @string: Pointer to string
+ * @bytes_read: size of string
+ * Return: prints in screen $ and received commands
+ */
+int _size(char *string)
+{
+	int j = 0;
+	char *token;
+	char copy[1024];
 
+	_strcpy(copy, string);
+	token = strtok(copy, " ");
+	while (token != NULL)
+	{
+		printf("token size = %s\n", token);
+		token = strtok(NULL, " ");
+		j++;
+	}	
+	return (j);
+}
 /**
  * main - basic shell
  *
@@ -87,7 +102,7 @@ int main(void)
 	size_t size = 0;
 	ssize_t bytes_read = 0;
 	char *string = NULL;
-	int i = 0;
+	int i = 0, j = 0;
 
 	while (1)
 	{
@@ -105,6 +120,8 @@ int main(void)
 			free(string);
 			exit(0); /*recordar que aquí debe haber un posible perror*/
 		}
+		j = _size(string);
+		argv = get_flags(string, j);
 		my_pid = fork();
 		if (my_pid == 0)
 		{
@@ -114,18 +131,21 @@ int main(void)
 				free(string);
 				break;
 			}
-			argv = get_flags(string, bytes_read);
-			
 			if (execve(argv[0], argv, NULL) == -1)
 			{
 				perror("Error2");
 			}
-			
 		}
 		else if (my_pid > 0)
 			wait(NULL);
 		else
 			perror("Error3");
+		for (; j >= 0; j--)
+		{
+			printf("final = %s\n", argv[j]);
+			//free(argv[j]);
+		}
+		free(argv);
 		free(string);
 	}
 	return (0);

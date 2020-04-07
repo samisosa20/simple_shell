@@ -11,4 +11,10 @@
 #include <unistd.h>
 #define NEW_LINE "\n"
 
+int _strlen(char *s);
+void get_flags(char **argv, char *string, ssize_t bytes_read);
+int _strchr(char *s);
+char **create_mal(void);
+void free_mal(char **argv);
+void exec_dir(char **argv, char *string, ssize_t bytes_read);
 #endif

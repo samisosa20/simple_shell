@@ -75,11 +75,11 @@ int main(void)
 			get_flags(argv, string, bytes_read);
 			if (execve(argv[0], argv, NULL) == -1)
 			{
-				for (i = 0; argv[i]; i++)
-					free(argv[i]);
-				free(argv);
 				perror("Error2");
 			}
+			for (i = 0; argv[i]; i++)
+				free(argv[i]);
+			free(argv);
 			exit(0);
 		}
 		else if (my_pid > 0)

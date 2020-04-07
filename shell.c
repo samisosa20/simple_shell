@@ -24,9 +24,9 @@ int main(void)
 			continue;
 		argv = create_mal();
 		if (_strchr(string) == 0)
-		{
 			exec_dir(argv, string, bytes_read);
-		}
+		else
+			exec_path(argv, string, bytes_read);
 		free_mal(argv);
 	}
 	return (0);

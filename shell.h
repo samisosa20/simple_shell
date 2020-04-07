@@ -10,6 +10,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #define NEW_LINE "\n"
+#define SLASH "/"
+#define COM_DOU "\""
+#define COLON ":"
 
 int _strlen(char *s);
 void get_flags(char **argv, char *string, ssize_t bytes_read);
@@ -17,4 +20,7 @@ int _strchr(char *s);
 char **create_mal(void);
 void free_mal(char **argv);
 void exec_dir(char **argv, char *string, ssize_t bytes_read);
+void exec_path(char **argv, char *string, ssize_t bytes_read);
+char *_strcat(char *dest, char *src);
+char *_strcpy(char *dest, char *src);
 #endif

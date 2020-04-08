@@ -42,43 +42,36 @@ void exec_path(char **argv,char *string, ssize_t bytes_read)
 	char *path = "/etc/environment";
 	int _file, i, j;
 	ssize_t _read, _write;
-	char *buffer, *aux, *token, *value;
+	char buffer[1024], *aux, *token, *value, *extra = buffer;
 	struct stat stats;
 
 	if (stat(path, &stats) == 0)
 	{
 		i = stats.st_size;
-		aux = malloc(sizeof(char) * i);
-		if (aux == NULL)
-			free(aux), exit(90);
-		buffer = malloc(sizeof(char) * i);
-		if (buffer == NULL)
-			free(aux), exit(90);
 		value = malloc(sizeof(char) * i);
 		if (value == NULL)
-			free(buffer), free(aux), exit(90);
+			exit(90);
 	}
-
 	_file = open(path, O_RDONLY);
 	if (_file == -1)
-		free(value), free(buffer), free(aux), exit(90);
+		free(value), exit(90);
 
 	_read = read(_file, buffer, i);
 	if (_read == -1)
 	{
 		close(_file);
-		free(value), free(buffer), free(aux), exit(90);
+		free(value), exit(90);
 	}
 	close(_file);
 
-	while (*buffer != '\0')
+	while (*extra != '\0')
 	{
-		if (*buffer == '/')
+		if (*extra == '/')
 		{
-			aux = buffer;
+			aux = extra;
 			break;
 		}
-		buffer++;
+		extra++;
 	}
 	aux = strtok(aux, COM_DOU);
 	get_flags(argv, string, bytes_read);
@@ -99,4 +92,5 @@ void exec_path(char **argv,char *string, ssize_t bytes_read)
 		}
 		token = strtok(NULL, COLON);
 	}
+	free(value);
 }

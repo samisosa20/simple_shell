@@ -8,10 +8,7 @@
 void free_mal(char **argv)
 {
 	char **aux = argv;
-	int i;
 
-	for (i = 0; aux[i]; i++)
-		free(aux[i]);
 	free(aux);
 }
 /**
@@ -19,19 +16,12 @@ void free_mal(char **argv)
  * @argv: direction pointer
  * Return: None
  */
-char **create_mal(void)
+char **create_mal(size_t size)
 {
-	int i;
 	char **argv;
 
-	argv = malloc(sizeof(char *));
+	argv = malloc(sizeof(char *) * size);
 	if (!argv)
 		exit(0);
-	for (i = 0; argv[i]; i++)
-	{
-		argv[i] = malloc(sizeof(char *));
-		if (!argv[i])
-			free(argv), exit(0);
-	}
 	return (argv);
 }

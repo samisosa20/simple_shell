@@ -17,7 +17,7 @@
 int _strlen(char *s);
 void get_flags(char **argv, char *string, ssize_t bytes_read);
 int _strchr(char *s);
-char **create_mal(void);
+char **create_mal(size_t size);
 void free_mal(char **argv);
 void exec_dir(char **argv, char *string, ssize_t bytes_read);
 void exec_path(char **argv, char *string, ssize_t bytes_read);

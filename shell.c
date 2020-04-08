@@ -22,7 +22,7 @@ int main(void)
 			free(string), exit(5);
 		if (*string == '\n' || *string == ' ')
 			continue;
-		argv = create_mal();
+		argv = create_mal(size);
 		if (_strchr(string) == 0)
 			exec_dir(argv, string, bytes_read);
 		else

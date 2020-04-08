@@ -6,15 +6,15 @@
  * @bytes_read: size of string
  * Return: None
 */
-void exec_dir(char **argv, char *string, ssize_t bytes_read)
+void exec_dir(char **argv, char *string, ssize_t bytes_read, char **environ)
 {
-	pid_t my_pid;
-
+	pid_t my_pid, parent_id;
+	
 	my_pid = fork();
 	if (my_pid == 0)
 	{
 		get_flags(argv, string, bytes_read);
-		if (execve(argv[0], argv, NULL) == -1)
+		if (execve(argv[0], argv, environ) == -1)
 		{
 			perror("Error2");
 			free_mal(argv);
@@ -39,7 +39,7 @@ void exec_dir(char **argv, char *string, ssize_t bytes_read)
  * Return: dir path
 */
 char *run_path(char *aux, char *value, char **argv,
-				char *string, ssize_t bytes_read)
+				char *string, ssize_t bytes_read, char **environ)
 {
 	char *token;
 	int j;
@@ -60,7 +60,7 @@ char *run_path(char *aux, char *value, char **argv,
 				_strcat(value, " ");
 				_strcat(value, argv[j]);
 			}
-			exec_dir(argv, value, bytes_read);
+			exec_dir(argv, value, bytes_read, environ);
 			break;
 		}
 		token = strtok(NULL, COLON);
@@ -78,7 +78,7 @@ char *run_path(char *aux, char *value, char **argv,
  * @bytes_read: size of string
  * Return: None
 */
-void exec_path(char **argv, char *string, ssize_t bytes_read)
+void exec_path(char **argv, char *string, ssize_t bytes_read, char **environ)
 {
 	char *value;
 	int _file, i;
@@ -112,6 +112,6 @@ void exec_path(char **argv, char *string, ssize_t bytes_read)
 		extra++;
 	}
 	aux = strtok(aux, COM_DOU);
-	run_path(aux, value, argv, string, bytes_read);
+	run_path(aux, value, argv, string, bytes_read, environ);
 	free(value);
 }

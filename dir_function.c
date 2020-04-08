@@ -46,6 +46,8 @@ char *run_path(char *aux, char *value, char **argv,
 	struct stat stats;
 
 	get_flags(argv, string, bytes_read);
+	if (_strcmp(argv[0],"exit") == 0)
+		_salir(argv, value, string);
 	token = strtok(aux, COLON);
 	while (token != NULL)
 	{

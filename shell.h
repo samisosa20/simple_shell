@@ -24,4 +24,7 @@ void exec_path(char **argv, char *string, ssize_t bytes_read);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 char *run_path(char *aux, char *value, char **argv, char *string, ssize_t bytes_read);
+int _strcmp(char *s1, char *s2);
+int _atoi(char *s);
+void _salir(char **argv, char *value, char *string);
 #endif

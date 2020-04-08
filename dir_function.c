@@ -67,8 +67,10 @@ char *run_path(char *aux, char *value, char **argv,
 	}
 	if (token == NULL)
 	{
-		write(2, argv[0], _strlen(argv[0]));
-		write(2, ": command not found\n", 20);
+		if (write(2, argv[0], _strlen(argv[0])) < 0)
+			exit(90);
+		if (write(2, ": command not found\n", 20) < 0)
+			exit (91);
 	}
 }
 /**

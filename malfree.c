@@ -13,8 +13,8 @@ void free_mal(char **argv)
 }
 /**
  * create_mal - free malloc
- * @argv: direction pointer
- * Return: None
+ * @size: size of string
+ * Return: double pointer
  */
 char **create_mal(size_t size)
 {

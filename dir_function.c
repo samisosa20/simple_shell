@@ -18,6 +18,7 @@ void exec_dir(char **argv, char *string, ssize_t bytes_read, char **environ)
 		{
 			perror("Error2");
 			free_mal(argv);
+			free(string);
 			exit(2);
 		}
 	}

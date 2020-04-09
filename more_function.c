@@ -18,11 +18,19 @@ int _strcmp(char *s1, char *s2)
 	else
 		return (*s1 - *s2);
 }
+
+/**
+* *_salir - exit function
+* @argv: Pointer to free
+* @value: value to exit
+* @string: pointer to free
+* Return: pointer.
+*/
 void _salir(char **argv, char *value, char *string)
 {
 	int n;
 
-	
+
 	if (argv[1] == NULL)
 		free(value), free(string), free_mal(argv), exit(0);
 	else
@@ -63,4 +71,57 @@ int _atoi(char *s)
 	}
 	sig = sig * -1;
 	return (aux * sig);
+}
+/**
+* *error_ex - show error
+* @argv: show argument and length
+* @av: name of the program
+* @com_count: line run
+* Return: pointer.
+*/
+void error_ex(char **argv, char *av[], int com_count)
+{
+	char com_num[1024];
+
+	_itos(com_count, com_num, 0, 1);
+	if (write(2, av[0], _strlen(av[0])) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, com_num, _strlen(com_num)) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, argv[0], _strlen(argv[0])) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, "not found\n", 10) < 0)
+		exit(127);
+}
+/**
+ * print_error - print errors
+ * @argv: arguments pointer
+ * @av: main arguments pointer
+ * @com_count: integer number of commands
+ * Return: dir path
+*/
+void print_error(char **argv, char *av[], int com_count)
+{
+	char com_num[1024];
+
+	_itos(com_count, com_num, 0, 1);
+	/*printf("%s\n", av[0]); ./hsh: 1: qwerty: not found*/
+	if (write(2, av[0], _strlen(av[0])) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, com_num, _strlen(com_num)) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, argv[0], _strlen(argv[0])) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
 }

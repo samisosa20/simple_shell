@@ -16,7 +16,6 @@ int _strlen(char *s)
  * get_flags - get flags to command
  * @argv: direction pointer
  * @string: Pointer to string
- * @bytes_read: size of string
  * Return: None
  */
 void get_flags(char **argv, char *string)

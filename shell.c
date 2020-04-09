@@ -2,7 +2,9 @@
 
 /**
  * main - basic shell
- *
+ * @argc: unused.
+ * @av: name of file.
+ * @environ: variables.
  * Return: prints in screen $ and received commands
  */
 int main(__attribute__((unused)) int argc, char *av[], char **environ)
@@ -15,8 +17,11 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 
 	while (1)
 	{
-		if (write(0, "$ ", 2) < 0)
-			exit(0);
+		if (isatty(STDIN_FILENO) == 1)
+		{
+			if (write(0, "$ ", 2) < 0)
+				exit(0);
+		}
 		bytes_read = getline(&string, &size, stdin);
 		com_count++;
 		if (bytes_read == EOF)

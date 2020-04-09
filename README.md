@@ -6,6 +6,7 @@ Welcome to the `Sammmy - Norman Simple Shell project!` This program is a simple 
 ## Quick Start
 
 Git clone all this respository to your local directory.
+
 `$ git clone https://github.com/samisosa20/simple_shell.git`
 
 or

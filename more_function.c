@@ -20,22 +20,16 @@ int _strcmp(char *s1, char *s2)
 }
 void _salir(char **argv, char *value, char *string)
 {
-    int n;
-    int *cpy;
+	int n;
 
-    free(value);
-    free(string);
-    if (argv[1] == NULL)
-        free_mal(argv), exit(0);
-    else
-    {
-        cpy = malloc(sizeof(int));
-        *cpy = _atoi(argv[1]);
-        n = *cpy;
-        free_mal(argv);
-        free(cpy);
-        exit(n);
-    }
+	
+	if (argv[1] == NULL)
+		free(value), free(string), free_mal(argv), exit(0);
+	else
+	{
+		n = _atoi(argv[1]);
+		free(value), free(string), free_mal(argv), exit(n);
+	}
 }
 /**
 * *_atoi - print only number

@@ -1,4 +1,50 @@
 #include "shell.h"
+
+/**
+ * rev_string - isdigit
+ * @s: integer
+ * Return: prints alphabet
+*/
+void rev_string(char *s)
+{
+	int i = 0;
+	int len = 0;
+	char save = 0;
+	int final = 0;
+
+	for (i = 0; s[i] != '\0'; i++)
+		len++;
+	final = len - 1;
+
+	for (i = final; i >= (final - i); i--)
+	{
+		save = s[(final - i)];
+		s[(final - i)] = s[i];
+		s[i] = save;
+	}
+}
+
+void _itos(long int num, char *string, int cont, int sign)
+{
+	if (num == 0)
+	{
+		if (sign == -1)
+		{
+			string[0] = '-';
+			string[1] = '\0';
+		}
+		else
+			string[0] = '\0';
+		rev_string(string - cont);
+	}
+	else
+	{
+		string[0] = (num % 10) + '0';
+		num /= 10;
+		_itos(num, string + 1, cont + 1, sign);
+	}
+}
+
 /**
  * exec_dir - execute directory command
  * @argv: direction pointer
@@ -6,17 +52,19 @@
  * @bytes_read: size of string
  * Return: None
 */
-void exec_dir(char **argv, char *string, ssize_t bytes_read, char **environ)
+void exec_dir(char **argv, char *string, char **environ,
+		char *av[], int com_count)
 {
-	pid_t my_pid, parent_id;
+	pid_t my_pid;
 	
 	my_pid = fork();
 	if (my_pid == 0)
 	{
-		get_flags(argv, string, bytes_read);
+		get_flags(argv, string);
 		if (execve(argv[0], argv, environ) == -1)
 		{
-			perror("Error2");
+			print_error(av, argv, com_count);
+			perror(": ");
 			free_mal(argv);
 			free(string);
 			exit(2);
@@ -39,14 +87,14 @@ void exec_dir(char **argv, char *string, ssize_t bytes_read, char **environ)
  * @bytes_read: length string
  * Return: dir path
 */
-char *run_path(char *aux, char *value, char **argv,
-				char *string, ssize_t bytes_read, char **environ)
+void run_path(char *aux, char *value, char **argv,
+	       char *string, char **environ, char *av[], int com_count)
 {
 	char *token;
 	int j;
 	struct stat stats;
 
-	get_flags(argv, string, bytes_read);
+	get_flags(argv, string);
 	if (_strcmp(argv[0],"exit") == 0)
 		_salir(argv, value, string);
 	token = strtok(aux, COLON);
@@ -61,19 +109,45 @@ char *run_path(char *aux, char *value, char **argv,
 				_strcat(value, " ");
 				_strcat(value, argv[j]);
 			}
-			exec_dir(argv, value, bytes_read, environ);
+			exec_dir(argv, value, environ, av, com_count);
 			break;
 		}
 		token = strtok(NULL, COLON);
 	}
 	if (token == NULL)
 	{
-		if (write(2, argv[0], _strlen(argv[0])) < 0)
-			exit(90);
-		if (write(2, ": command not found\n", 20) < 0)
+		print_error(argv, av, com_count);
+		if (write(2, "not found\n", 11) < 0)
 			exit (91);
 	}
 }
+/**
+ * print_error - print errors
+ * @argv: arguments pointer
+ * @av: main arguments pointer
+ * @com_count: integer number of commands
+ * Return: dir path
+*/
+void print_error(char **argv, char *av[], int com_count)
+{
+	char com_num[1024];
+	
+	_itos(com_count, com_num, 0, 1);
+	//printf("%s\n", av[0]); ./hsh: 1: qwerty: not found
+	if (write(2, av[0], _strlen(av[0])) < 0)
+		exit(91);
+	if (write(2, ": ", 2) < 0)
+		exit(91);
+	if (write(2, com_num, _strlen(com_num)) < 0)
+		exit(91);
+	if (write(2, ": ", 2) < 0)
+		exit(91);
+	if (write(2, argv[0], _strlen(argv[0])) < 0)
+		exit(90);
+	if (write(2, ": ", 2) < 0)
+		exit(91);
+}
+
 /**
  * exec_path - find command path
  * @argv: direction pointer
@@ -81,12 +155,13 @@ char *run_path(char *aux, char *value, char **argv,
  * @bytes_read: size of string
  * Return: None
 */
-void exec_path(char **argv, char *string, ssize_t bytes_read, char **environ)
+void exec_path(char **argv, char *string, char **environ, 
+		char *av[], int com_count)
 {
 	char *value;
 	int _file, i;
 	struct stat stats;
-	ssize_t _read, _write;
+	ssize_t _read;
 	char buffer[1024], *aux, *extra = buffer;
 
 	if (stat(PATH_DIR, &stats) == 0)
@@ -115,6 +190,6 @@ void exec_path(char **argv, char *string, ssize_t bytes_read, char **environ)
 		extra++;
 	}
 	aux = strtok(aux, COM_DOU);
-	run_path(aux, value, argv, string, bytes_read, environ);
+	run_path(aux, value, argv, string, environ, av, com_count);
 	free(value);
 }

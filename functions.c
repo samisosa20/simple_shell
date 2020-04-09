@@ -19,10 +19,10 @@ int _strlen(char *s)
  * @bytes_read: size of string
  * Return: None
  */
-void get_flags(char **argv, char *string, ssize_t bytes_read)
+void get_flags(char **argv, char *string)
 {
 	char **arguments = argv;
-	int i = 0, j = 0;
+	int i = 0;
 	char *token = strtok(string, " ");
 
 	while (token != NULL)

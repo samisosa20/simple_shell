@@ -79,7 +79,7 @@ int _atoi(char *s)
 * @com_count: line run
 * Return: pointer.
 */
-void error_ex(char **argv, char *av[], int com_count)
+void error_ex(char *string, char *av[], int com_count)
 {
 	char com_num[1024];
 
@@ -92,7 +92,7 @@ void error_ex(char **argv, char *av[], int com_count)
 		exit(127);
 	if (write(2, ": ", 2) < 0)
 		exit(127);
-	if (write(2, argv[0], _strlen(argv[0])) < 0)
+	if (write(2, string, _strlen(string)) < 0)
 		exit(127);
 	if (write(2, ": ", 2) < 0)
 		exit(127);

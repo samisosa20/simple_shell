@@ -72,7 +72,7 @@ void exec_dir(char **argv, char *string, char **environ,
 		get_flags(argv, string);
 		if (execve(argv[0], argv, environ) == -1)
 		{
-			error_ex(argv, av, com_count);
+			error_ex(string, av, com_count);
 			free_mal(argv);
 			free(string);
 			exit(126);

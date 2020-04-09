@@ -25,7 +25,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		bytes_read = getline(&string, &size, stdin);
 		com_count++;
 		if (bytes_read == EOF)
-			free(string), exit(5);
+			free(string), exit(0);
 		aux = string;
 		while (*aux != '\0')
 		{

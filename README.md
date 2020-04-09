@@ -66,6 +66,7 @@ Brief description of every file in this repository. Subject to change.
 | more_function.c | where are multipe functions to help run code too |
 | shell.c | Primary shell source code |
 | shell.h | Shell header file |
+| generate-authors.sh | Bash script to generate the `AUTHORS` |
 
 ## Authors
 

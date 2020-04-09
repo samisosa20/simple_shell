@@ -23,22 +23,29 @@ Execute the shell.
 Note: You can also run this shell in non-interactive mode, by simply piping your desired commands into the shell executable.
 
 ## Syntax
+
 When using this shell, the syntax for running any command follows the familiar syntax when running a command in any other shell:
 
 `$ <command> <flags or options> <argument 1> <argument 2> ...`
+
 In non-interactive mode:
 
 `$ <command> | ./hsh`
+
 ### Example
+
 Interactive mode:
 
 `$ /bin/ls`
+
 or
 
 `$ ls -l`
+
 or
 
 `$ cat textfile`
+
 Non-interactive mode:
 
 `$ echo "ls -l" | ./hsh`
@@ -62,4 +69,5 @@ Brief description of every file in this repository. Subject to change.
 ## Authors
 
 Sammy Guttman.
+
 Norman Isaza.

@@ -19,11 +19,12 @@ void get_flags(char **argv, char *string, ssize_t bytes_read);
 int _strchr(char *s);
 char **create_mal(size_t size);
 void free_mal(char **argv);
-void exec_dir(char **argv, char *string, ssize_t bytes_read);
-void exec_path(char **argv, char *string, ssize_t bytes_read);
+void exec_dir(char **argv, char *string, ssize_t bytes_read, char **environ);
+void exec_path(char **argv, char *string, ssize_t bytes_read, char **environ);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
-char *run_path(char *aux, char *value, char **argv, char *string, ssize_t bytes_read);
+char *run_path(char *aux, char *value, char **argv, char *string, ssize_t bytes_read,
+		char **environ);
 int _strcmp(char *s1, char *s2);
 int _atoi(char *s);
 void _salir(char **argv, char *value, char *string);

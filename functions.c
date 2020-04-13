@@ -24,11 +24,31 @@ void get_flags(char **argv, char *string)
 	int i = 0;
 	char *token = strtok(string, " ");
 
-	while (token != NULL)
+	if (_strcmp(token, "/bin/echo") == 0 || _strcmp(token, "echo") == 0)
 	{
-		arguments[i] = token;
-		token = strtok(NULL, " ");
-		i++;
+		while (token != NULL)
+		{
+			arguments[i] = token;
+			if (i == 0)
+				token = strtok(NULL, " ");
+			else
+			{
+				if (*token == '\"')
+					token = strtok(NULL, "\"");
+				else
+					token = strtok(NULL, " ");
+			}
+			i++;
+		}
+	}
+	else
+	{
+		while (token != NULL)
+		{
+			arguments[i] = token;
+			token = strtok(NULL, " ");
+			i++;
+		}
 	}
 	arguments[i] = NULL;
 	arguments[i - 1] = strtok(arguments[i - 1], NEW_LINE);

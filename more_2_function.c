@@ -52,25 +52,25 @@ void _itos(long int num, char *string, int cont, int sign)
 	}
 }
 /**
-* _strchr - a function that locates a character in a string
+* _strchr_echo - a function that locates a character in a string
 * @s: pointer that locate a character.
 * @c: character.
 * Return: pointer.
 */
 char *_strchr_echo(char *s, char c)
 {
-    if (*s == c)
-    {
-        while (*s != '\0')
-        {
-            if (*s == c)
-            {
-                s++;
-                s = strtok(s, COM_DOU);
-                return (s);
-            }
-            s++;
-        }
-    }
+	if (*s == c)
+	{
+		while (*s != '\0')
+		{
+			if (*s == c)
+			{
+				s++;
+				s = strtok(s, COM_DOU);
+				return (s);
+			}
+			s++;
+		}
+	}
 	return (s);
 }

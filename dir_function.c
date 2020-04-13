@@ -15,6 +15,7 @@ void exec_dir(char **argv, char *string, char **environ,
 {
 	pid_t my_pid;
 	char *aux;
+	int j;
 
 	if (flag == 1)
 		aux = string;
@@ -23,8 +24,12 @@ void exec_dir(char **argv, char *string, char **environ,
 	my_pid = fork();
 	if (my_pid == 0)
 	{
-		get_flags(argv, string);
 		argv[0] = aux;
+
+		for (j = 1; argv[j]; j++)
+		{
+			argv[j] = _strchr_echo(argv[j], '\"');
+		}
 		if (execve(string, argv, environ) == -1)
 		{
 			error_ex(string, av, com_count);
@@ -59,25 +64,18 @@ void run_path(char *aux, char *value, char **argv,
 		   char *string, char **environ, char *av[], int com_count)
 {
 	char *token;
-	int j;
 	struct stat stats;
 
-	get_flags(argv, string);
 	if (_strcmp(argv[0], "exit") == 0)
 		_salir(argv, value, string);
 	token = strtok(aux, COLON);
 	while (token != NULL)
 	{
 		_strcpy(value, token);
-		_strcat(value, SLASH), _strcat(value, string);
+		_strcat(value, SLASH), _strcat(value, argv[0]);
 		if (stat(value, &stats) == 0)
 		{
-			for (j = 1; argv[j]; j++)
-			{
-				_strcat(value, " ");
-				argv[j] = _strchr_echo(argv[j], '\"');
-				_strcat(value, argv[j]);
-			}
+			argv[0] = value;
 			exec_dir(argv, value, environ, av, com_count, 2);
 			break;
 		}

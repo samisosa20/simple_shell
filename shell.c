@@ -38,6 +38,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		if (*aux == '\n' || *aux == ' ' || *aux == '\t')
 			continue;
 		argv = create_mal(size);
+		get_flags(argv, aux);
 		if (_strchr(aux) == 0)
 			exec_dir(argv, aux, environ, av, com_count, 1);
 		else

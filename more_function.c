@@ -74,7 +74,7 @@ int _atoi(char *s)
 }
 /**
 * *error_ex - show error
-* @argv: show argument and length
+* @string: show argument and length
 * @av: name of the program
 * @com_count: line run
 * Return: pointer.

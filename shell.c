@@ -39,7 +39,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			continue;
 		argv = create_mal(size);
 		if (_strchr(aux) == 0)
-			exec_dir(argv, aux, environ, av, com_count);
+			exec_dir(argv, aux, environ, av, com_count, 1);
 		else
 			exec_path(argv, aux, environ, av, com_count);
 		free_mal(argv);

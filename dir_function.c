@@ -25,8 +25,7 @@ void exec_dir(char **argv, char *string, char **environ,
 	if (my_pid == 0)
 	{
 		argv[0] = aux;
-
-		for (j = 1; argv[j]; j++)
+		for (j = 0; argv[j]; j++)
 		{
 			argv[j] = _strchr_echo(argv[j], '\"');
 		}

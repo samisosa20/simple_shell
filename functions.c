@@ -24,7 +24,6 @@ void get_flags(char **argv, char *string)
 	int i = 0;
 	char *token = strtok(string, " ");
 
-	printf("ver string: %s\n", string);
 	if (_strcmp(token, "/bin/echo") == 0 || _strcmp(token, "echo") == 0)
 	{
 		while (token != NULL)
@@ -46,7 +45,6 @@ void get_flags(char **argv, char *string)
 	{
 		while (token != NULL)
 		{
-			/*printf("ver argv[%d]: %s\n", i, token);*/
 			arguments[i] = token;
 			token = strtok(NULL, " ");
 			i++;

@@ -39,6 +39,8 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			continue;
 		argv = create_mal(size);
 		get_flags(argv, aux);
+		argv[0] = _strchr_echo(argv[0], '\"');
+		aux = _strchr_echo(aux, '\"');
 		if (_strchr(aux) == 0)
 			exec_dir(argv, aux, environ, av, com_count, 1);
 		else

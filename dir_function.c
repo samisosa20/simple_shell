@@ -33,8 +33,13 @@ void exec_dir(char **argv, char *string, char **environ,
 		{
 			error_ex(string, av, com_count);
 			free_mal(argv);
+			printf("L ini: %d\n", leng_ini);
+			printf("L fin: %d\n", _strlen(string));
 			if (leng_ini !=  _strlen(string))
 				--string;
+			if (*string != '\"')
+				++string;
+			printf("L fin 2: %d\n", _strlen(string));
 			free(string);
 			exit(126);
 		}

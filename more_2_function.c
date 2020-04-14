@@ -60,18 +60,7 @@ void _itos(long int num, char *string, int cont, int sign)
 char *_strchr_echo(char *s, char c)
 {
 	if (*s == c)
-	{
-		while (*s != '\0')
-		{
-			if (*s == c)
-			{
-				s++;
-				s = strtok(s, COM_DOU);
-				return (s);
-			}
-			s++;
-		}
-	}
+		s = strtok(s, "\"");
 	return (s);
 }
 

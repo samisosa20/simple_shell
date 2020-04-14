@@ -63,17 +63,29 @@ void run_path(char *aux, char *value, char **argv,
 		   char *string, char **environ,
 		   char *av[], int com_count, char *copy_path)
 {
-	char *token;
+	char *token, pwd[] = "./";
 	struct stat stats;
+	int bandera;
 
 	if (_strcmp(argv[0], "exit") == 0)
 		_salir(argv, value, string);
 	_strcpy(copy_path, aux);
+	bandera = 0;
+	if (*copy_path == ':')
+		bandera = 1;
 	token = strtok(copy_path, COLON);
 	while (token != NULL)
 	{
-		_strcpy(value, token);
-		_strcat(value, SLASH), _strcat(value, argv[0]);
+		if (bandera == 1)
+		{
+			_strcat(value, pwd), _strcat(value, argv[0]);
+		}
+		else
+		{
+			_strcpy(value, token);
+			_strcat(value, SLASH), _strcat(value, argv[0]);
+		}
+		bandera = 0;
 		if (stat(value, &stats) == 0)
 		{
 			argv[0] = value;
@@ -116,7 +128,6 @@ void exec_path(char **argv, char *string, char **environ,
 		if (copy_path == NULL)
 			exit(90);
 	}
-	printf("dir_path: %s\n", dir_path);
 	run_path(dir_path, value, argv, string, environ,
 			av, com_count, copy_path);
 	free(value);

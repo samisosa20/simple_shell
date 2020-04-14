@@ -22,11 +22,12 @@ void free_mal(char **argv);
 void exec_dir(char **argv, char *string, char **environ,
 				char *av[], int com_count, int flag);
 void exec_path(char **argv, char *string, char **environ,
-				char *av[], int com_count);
+				char *av[], int com_count, char *dir_path);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 void run_path(char *aux, char *value, char **argv, char *string,
-				char **environ, char *av[], int com_count);
+				char **environ,
+				char *av[], int com_count, char *copy_path);
 int _strcmp(char *s1, char *s2);
 int _atoi(char *s);
 void _salir(char **argv, char *value, char *string);
@@ -34,4 +35,5 @@ void print_error(char **argv, char *av[], int com_count);
 void error_ex(char *string, char *av[], int com_count);
 void _itos(long int num, char *string, int cont, int sign);
 char *_strchr_echo(char *s, char c);
+char *_get_path(char **environ);
 #endif

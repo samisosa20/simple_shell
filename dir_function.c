@@ -60,14 +60,16 @@ void exec_dir(char **argv, char *string, char **environ,
  * Return: dir path
 */
 void run_path(char *aux, char *value, char **argv,
-		   char *string, char **environ, char *av[], int com_count)
+		   char *string, char **environ,
+		   char *av[], int com_count, char *copy_path)
 {
 	char *token;
 	struct stat stats;
 
 	if (_strcmp(argv[0], "exit") == 0)
 		_salir(argv, value, string);
-	token = strtok(aux, COLON);
+	_strcpy(copy_path, aux);
+	token = strtok(copy_path, COLON);
 	while (token != NULL)
 	{
 		_strcpy(value, token);
@@ -98,13 +100,11 @@ void run_path(char *aux, char *value, char **argv,
  * Return: None
 */
 void exec_path(char **argv, char *string, char **environ,
-		char *av[], int com_count)
+		char *av[], int com_count, char *dir_path)
 {
-	char *value;
-	int _file, i;
+	char *value, *copy_path;
+	int i;
 	struct stat stats;
-	ssize_t _read;
-	char buffer[1024], *aux, *extra = buffer;
 
 	if (stat(PATH_DIR, &stats) == 0)
 	{
@@ -112,26 +112,13 @@ void exec_path(char **argv, char *string, char **environ,
 		value = malloc(sizeof(char) * i);
 		if (value == NULL)
 			exit(90);
+		copy_path = malloc(sizeof(char) * _strlen(dir_path));
+		if (copy_path == NULL)
+			exit(90);
 	}
-	_file = open(PATH_DIR, O_RDONLY);
-	if (_file == -1)
-		free(value), exit(90);
-
-	_read = read(_file, buffer, i);
-	if (_read == -1)
-		close(_file), free(value), exit(90);
-	close(_file);
-
-	while (*extra != '\0')
-	{
-		if (*extra == '/')
-		{
-			aux = extra;
-			break;
-		}
-		extra++;
-	}
-	aux = strtok(aux, COM_DOU);
-	run_path(aux, value, argv, string, environ, av, com_count);
+	printf("dir_path: %s\n", dir_path);
+	run_path(dir_path, value, argv, string, environ,
+			av, com_count, copy_path);
 	free(value);
+	free(copy_path);
 }

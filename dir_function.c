@@ -11,7 +11,7 @@
  * Return: None
 */
 void exec_dir(char **argv, char *string, char **environ,
-		 char *av[], int com_count, int flag)
+		 char *av[], int com_count, int flag, int leng_ini)
 {
 	pid_t my_pid;
 	char *aux;
@@ -33,7 +33,9 @@ void exec_dir(char **argv, char *string, char **environ,
 		{
 			error_ex(string, av, com_count);
 			free_mal(argv);
-			free(--string);
+			if (leng_ini !=  _strlen(string))
+				--string;
+			free(string);
 			exit(126);
 		}
 	}
@@ -90,7 +92,7 @@ void run_path(char *aux, char *value, char **argv,
 		if (stat(value, &stats) == 0)
 		{
 			argv[0] = value;
-			exec_dir(argv, value, environ, av, com_count, 2);
+			exec_dir(argv, value, environ, av, com_count, 2, 10000);
 			break;
 		}
 		token = strtok(NULL, COLON);

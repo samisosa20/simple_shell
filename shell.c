@@ -13,7 +13,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 	size_t size = 0;
 	ssize_t bytes_read = 0;
 	char *string = NULL, *aux = NULL;
-	int com_count = 0;
+	int com_count = 0, leng_ini = 0;
 
 	dir_path = _get_path(environ);
 	while (1)
@@ -27,6 +27,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		com_count++;
 		if (bytes_read == EOF)
 			free(string), exit(0);
+		leng_ini = _strlen(string);
 		aux = string;
 		while (*aux != '\0')
 		{
@@ -43,7 +44,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		argv[0] = _strchr_echo(argv[0], '\"');
 		aux = _strchr_echo(aux, '\"');
 		if (_strchr(aux) == 0)
-			exec_dir(argv, aux, environ, av, com_count, 1);
+			exec_dir(argv, aux, environ, av, com_count, 1, leng_ini);
 		else
 			exec_path(argv, aux, environ, av, com_count, dir_path);
 		free_mal(argv);

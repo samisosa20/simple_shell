@@ -74,6 +74,12 @@ char *_strchr_echo(char *s, char c)
 	}
 	return (s);
 }
+
+/**
+* _get_path - a function that gets the path
+* @environ: pointer that locate a character.
+* Return: pointer.
+*/
 char *_get_path(char **environ)
 {
 	int w, x;

@@ -36,7 +36,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			}
 			aux++;
 		}
-		if (*aux == '\n' || *aux == ' ' || *aux == '\t')
+		if (*aux == '\n' || *aux == ' ' || *aux == '\t' || *aux == '.')
 			continue;
 		argv = create_mal(size);
 		get_flags(argv, aux);

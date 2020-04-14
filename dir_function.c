@@ -57,6 +57,7 @@ void exec_dir(char **argv, char *string, char **environ,
  * @environ: double pointer
  * @av: command
  * @com_count: nro of line
+ * @copy_path: copy path
  * Return: dir path
 */
 void run_path(char *aux, char *value, char **argv,
@@ -109,6 +110,7 @@ void run_path(char *aux, char *value, char **argv,
  * @environ: double pointer
  * @av: command
  * @com_count: nro of line
+ * @dir_path: dir path
  * Return: None
 */
 void exec_path(char **argv, char *string, char **environ,

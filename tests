@@ -1,0 +1,9 @@
+echo "." | ./hsh          vs       echo "." | sh
+10:07
+echo ". hola" | ./hsh         vs      echo ". hola" | sh
+10:08
+echo ".." | ./hsh         vs      echo ".." | sh
+10:08
+echo "/" | ./hsh         vs      echo "/" | sh
+10:08
+echo "/////ls" | ./hsh         vs      echo "//////ls" | sh

@@ -9,12 +9,13 @@
  */
 int main(__attribute__((unused)) int argc, char *av[], char **environ)
 {
-	char **argv;
+	char **argv, *dir_path;
 	size_t size = 0;
 	ssize_t bytes_read = 0;
 	char *string = NULL, *aux = NULL;
 	int com_count = 0;
 
+	dir_path = _get_path(environ);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO) == 1)
@@ -35,7 +36,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			}
 			aux++;
 		}
-		if (*aux == '\n' || *aux == ' ' || *aux == '\t')
+		if (*aux == '\n' || *aux == ' ' || *aux == '\t' || *aux == '.')
 			continue;
 		argv = create_mal(size);
 		get_flags(argv, aux);
@@ -44,7 +45,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		if (_strchr(aux) == 0)
 			exec_dir(argv, aux, environ, av, com_count, 1);
 		else
-			exec_path(argv, aux, environ, av, com_count);
+			exec_path(argv, aux, environ, av, com_count, dir_path);
 		free_mal(argv);
 	}
 	return (0);

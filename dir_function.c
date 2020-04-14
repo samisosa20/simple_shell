@@ -57,21 +57,36 @@ void exec_dir(char **argv, char *string, char **environ,
  * @environ: double pointer
  * @av: command
  * @com_count: nro of line
+ * @copy_path: copy path
  * Return: dir path
 */
 void run_path(char *aux, char *value, char **argv,
-		   char *string, char **environ, char *av[], int com_count)
+		   char *string, char **environ,
+		   char *av[], int com_count, char *copy_path)
 {
-	char *token;
+	char *token, pwd[] = "./";
 	struct stat stats;
+	int bandera;
 
 	if (_strcmp(argv[0], "exit") == 0)
 		_salir(argv, value, string);
-	token = strtok(aux, COLON);
+	_strcpy(copy_path, aux);
+	bandera = 0;
+	if (*copy_path == ':')
+		bandera = 1;
+	token = strtok(copy_path, COLON);
 	while (token != NULL)
 	{
-		_strcpy(value, token);
-		_strcat(value, SLASH), _strcat(value, argv[0]);
+		if (bandera == 1)
+		{
+			_strcat(value, pwd), _strcat(value, argv[0]);
+		}
+		else
+		{
+			_strcpy(value, token);
+			_strcat(value, SLASH), _strcat(value, argv[0]);
+		}
+		bandera = 0;
 		if (stat(value, &stats) == 0)
 		{
 			argv[0] = value;
@@ -95,16 +110,15 @@ void run_path(char *aux, char *value, char **argv,
  * @environ: double pointer
  * @av: command
  * @com_count: nro of line
+ * @dir_path: dir path
  * Return: None
 */
 void exec_path(char **argv, char *string, char **environ,
-		char *av[], int com_count)
+		char *av[], int com_count, char *dir_path)
 {
-	char *value;
-	int _file, i;
+	char *value, *copy_path;
+	int i;
 	struct stat stats;
-	ssize_t _read;
-	char buffer[1024], *aux, *extra = buffer;
 
 	if (stat(PATH_DIR, &stats) == 0)
 	{
@@ -112,26 +126,12 @@ void exec_path(char **argv, char *string, char **environ,
 		value = malloc(sizeof(char) * i);
 		if (value == NULL)
 			exit(90);
+		copy_path = malloc(sizeof(char) * _strlen(dir_path));
+		if (copy_path == NULL)
+			exit(90);
 	}
-	_file = open(PATH_DIR, O_RDONLY);
-	if (_file == -1)
-		free(value), exit(90);
-
-	_read = read(_file, buffer, i);
-	if (_read == -1)
-		close(_file), free(value), exit(90);
-	close(_file);
-
-	while (*extra != '\0')
-	{
-		if (*extra == '/')
-		{
-			aux = extra;
-			break;
-		}
-		extra++;
-	}
-	aux = strtok(aux, COM_DOU);
-	run_path(aux, value, argv, string, environ, av, com_count);
+	run_path(dir_path, value, argv, string, environ,
+			av, com_count, copy_path);
 	free(value);
+	free(copy_path);
 }

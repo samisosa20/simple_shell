@@ -16,7 +16,6 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 	int com_count = 0;
 
 	dir_path = _get_path(environ);
-	printf("%s\n", dir_path);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO) == 1)

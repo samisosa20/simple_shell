@@ -33,7 +33,7 @@ void exec_dir(char **argv, char *string, char **environ,
 		{
 			error_ex(string, av, com_count);
 			free_mal(argv);
-			free(string);
+			free(--string);
 			exit(126);
 		}
 	}

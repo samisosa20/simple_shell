@@ -40,4 +40,6 @@ char *_strchr_echo(char *s, char c);
 char *_get_path(char **environ);
 int detect_slash(char c, char *string);
 void error_perm(char *string, char *av[], int com_count);
+int validate_com(char *aux);
+char *_clean_line(char *aux);
 #endif

@@ -11,7 +11,7 @@
  * Return: None
 */
 void verify_dir(char **argv, char *string, char **environ,
-	      char *av[], int com_count, int flag)
+		  char *av[], int com_count, int flag)
 {
 	struct stat stats;
 
@@ -19,7 +19,7 @@ void verify_dir(char **argv, char *string, char **environ,
 	{
 		if (S_ISDIR(stats.st_mode) == 0)
 			exec_dir(argv, string, environ, av, com_count, flag);
-		else 
+		else
 		{
 			print_error(argv, av, com_count);
 			if (write(2, "Permission denied\n", 18) < 0)

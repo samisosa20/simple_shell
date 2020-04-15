@@ -22,8 +22,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		if (isatty(STDIN_FILENO) == 1)
 			if (write(0, "$ ", 2) < 0)
 				exit(0);
-		bytes_read = getline(&string, &size, stdin);
-		com_count++;
+		bytes_read = getline(&string, &size, stdin), com_count++;
 		if (bytes_read == EOF)
 			free(string), exit(0);
 		aux = string;
@@ -32,9 +31,10 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			if (*aux != ' ' && *aux != '\t')
 				break;
 			aux++; }
-		if (*aux == '\n' || *aux == ' ' || *aux == '\t' ||
-			(*aux == '.' && aux[1] == '\n'))
-			continue;
+		if (validate_com(aux) == -1)
+		{
+			free(string);
+			continue; }
 		argv = create_mal(size);
 		get_flags(argv, aux);
 		argv[0] = _strchr_echo(argv[0], '\"');

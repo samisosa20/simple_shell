@@ -20,7 +20,7 @@ int _strchr(char *s);
 char **create_mal(size_t size);
 void free_mal(char **argv);
 void exec_dir(char **argv, char *string, char **environ,
-				char *av[], int com_count, int flag, int leng_ini);
+				char *av[], int com_count, int flag);
 void exec_path(char **argv, char *string, char **environ,
 				char *av[], int com_count, char *dir_path);
 char *_strcat(char *dest, char *src);
@@ -36,4 +36,6 @@ void error_ex(char *string, char *av[], int com_count);
 void _itos(long int num, char *string, int cont, int sign);
 char *_strchr_echo(char *s, char c);
 char *_get_path(char **environ);
+int detect_slash(char c, char *string);
+void error_perm(char *string, char *av[], int com_count);
 #endif

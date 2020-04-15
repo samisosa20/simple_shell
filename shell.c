@@ -45,7 +45,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		else
 		{
 		if (_strchr(aux) == 0)
-			exec_dir(argv, aux, environ, av, com_count, 1);
+			verify_dir(argv, aux, environ, av, com_count, 1);
 		else
 			exec_path(argv, aux, environ, av, com_count, dir_path); }
 		free_mal(argv); }

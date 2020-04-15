@@ -22,7 +22,10 @@ void get_flags(char **argv, char *string)
 {
 	char **arguments = argv;
 	int i = 0;
-	char *token = strtok(string, " ");
+	char delimit[] = " \t";
+	char *token = strtok(string, delimit);
+
+	printf("token 0 = %s\n", token);
 
 	if (_strcmp(token, "/bin/echo") == 0 || _strcmp(token, "echo") == 0)
 	{
@@ -45,8 +48,9 @@ void get_flags(char **argv, char *string)
 	{
 		while (token != NULL)
 		{
+			
 			arguments[i] = token;
-			token = strtok(NULL, " ");
+			token = strtok(NULL, delimit);
 			i++;
 		}
 	}

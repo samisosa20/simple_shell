@@ -1,6 +1,40 @@
 #include "shell.h"
 
 /**
+ * verify_dir - execute directory command
+ * @argv: direction pointer
+ * @string: Pointer to string
+ * @environ: double pointer
+ * @av: command
+ * @com_count: nro of line
+ * @flag: know who call
+ * Return: None
+*/
+void verify_dir(char **argv, char *string, char **environ,
+	      char *av[], int com_count, int flag)
+{
+	struct stat stats;
+
+	if (stat(argv[0], &stats) == 0)
+	{
+		if (S_ISDIR(stats.st_mode) == 0)
+			exec_dir(argv, string, environ, av, com_count, flag);
+		else
+		{
+			print_error(argv, av, com_count);
+			if (write(2, "not found\n", 10) < 0)
+				exit(127);
+		}
+	}
+	else
+	{
+		print_error(argv, av, com_count);
+		if (write(2, "not found\n", 10) < 0)
+			exit(127);
+	}
+}
+
+/**
  * exec_dir - execute directory command
  * @argv: direction pointer
  * @string: Pointer to string

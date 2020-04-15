@@ -21,6 +21,8 @@ char **create_mal(size_t size);
 void free_mal(char **argv);
 void exec_dir(char **argv, char *string, char **environ,
 				char *av[], int com_count, int flag);
+void verify_dir(char **argv, char *string, char **environ,
+	      char *av[], int com_count, int flag);
 void exec_path(char **argv, char *string, char **environ,
 				char *av[], int com_count, char *dir_path);
 char *_strcat(char *dest, char *src);

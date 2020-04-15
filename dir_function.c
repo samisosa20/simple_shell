@@ -108,13 +108,15 @@ void run_path(char *aux, char *value, char **argv,
 	bandera = 0;
 	if (*copy_path == ':')
 		bandera = 1;
+	else if (string[0] == '.' && string[1] == '/')
+		bandera = 2;
 	token = strtok(copy_path, COLON);
 	while (token != NULL)
 	{
 		if (bandera == 1)
-		{
 			_strcat(value, pwd), _strcat(value, argv[0]);
-		}
+		else if (bandera == 2)
+			 _strcat(value, argv[0]);
 		else
 		{
 			_strcpy(value, token);

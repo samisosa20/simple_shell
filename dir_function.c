@@ -19,7 +19,7 @@ void verify_dir(char **argv, char *string, char **environ,
 	{
 		if (S_ISDIR(stats.st_mode) == 0)
 			exec_dir(argv, string, environ, av, com_count, flag);
-		else
+		else 
 		{
 			print_error(argv, av, com_count);
 			if (write(2, "Permission denied\n", 18) < 0)
@@ -149,14 +149,14 @@ void run_path(char *aux, char *value, char **argv,
 void exec_path(char **argv, char *string, char **environ,
 		char *av[], int com_count, char *dir_path)
 {
-	char *value = NULL, *copy_path = NULL;
+	char *value, *copy_path;
 
 	value = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
-	if (value == NULL)
-		exit(90);
-	copy_path = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
-	if (copy_path == NULL)
-		exit(90);
+		if (value == NULL)
+			exit(90);
+		copy_path = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
+		if (copy_path == NULL)
+			exit(90);
 	run_path(dir_path, value, argv, string, environ,
 			av, com_count, copy_path);
 	free(value);

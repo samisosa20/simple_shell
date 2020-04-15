@@ -1,0 +1,58 @@
+.TH man 1 "14 apr 2020" "0.01" "hsh simple shell man page"
+.SH NAME
+.B hsh
+- simple command interpreter (shell)
+.SH SYNOPSIS
+.NM
+.BK -words
+.B ./hsh
+.br
+.OP command_path
+.Ek
+.BK -words
+.OP -option
+| 
+.B ./hsh
+.br
+.SH DESCRIPTION
+hsh is a simple command interpreter for the system.
+.SS Overview
+The shell is a command that reads lines from either a file or the
+terminal, interprets them, and generally executes other commands.
+It incorporates many features to aid interactive use and
+has the advantage that the interpretative language is common to both
+interactive and non-interactive use (shell scripts).
+That is, commands
+can be typed directly to the running shell or can be put into a file and
+the file can be executed directly by the shell.
+.SS Syntax
+When using this shell, the syntax for running any command 
+follows the familiar syntax when running a command in any 
+other shell:
+.br
+.B $ <command> <flags or options> <argument 1> <argument 2> ...
+.SS Usage examples
+.BR
+.I Interactive mode:
+
+$ /bin/ls 
+.br
+$ ls -l
+.br
+$ cat textfile
+.br
+
+.I Non-interactive mode:
+
+.br
+$ echo "ls -l" | ./hsh
+.br
+.SH OPTIONS
+.B ./hsh
+does not take any options.
+.SH SEE ALSO
+.I sh
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Norman Isaza, Sammy Guttman

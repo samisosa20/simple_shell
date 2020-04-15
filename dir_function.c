@@ -149,14 +149,14 @@ void run_path(char *aux, char *value, char **argv,
 void exec_path(char **argv, char *string, char **environ,
 		char *av[], int com_count, char *dir_path)
 {
-	char *value, *copy_path;
+	char *value = NULL, *copy_path = NULL;
 
 	value = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
-		if (value == NULL)
-			exit(90);
-		copy_path = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
-		if (copy_path == NULL)
-			exit(90);
+	if (value == NULL)
+		exit(90);
+	copy_path = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
+	if (copy_path == NULL)
+		exit(90);
 	run_path(dir_path, value, argv, string, environ,
 			av, com_count, copy_path);
 	free(value);

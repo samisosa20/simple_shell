@@ -18,7 +18,7 @@ void free_mal(char **argv)
  */
 char **create_mal(size_t size)
 {
-	char **argv;
+	char **argv = NULL;
 
 	argv = malloc(sizeof(char *) * size);
 	if (!argv)

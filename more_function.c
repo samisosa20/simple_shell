@@ -31,10 +31,11 @@ void _salir(char **argv, char *value, char *string, char *copy_path)
 {
 	int n;
 
-
 	if (argv[1] == NULL)
 	{
-		free(value), free(copy_path), free(string);
+		free(value);
+		free(copy_path);
+		free(string);
 		free_mal(argv), exit(0);
 	}
 	else

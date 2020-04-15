@@ -12,12 +12,13 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 	char **argv, *dir_path;
 	size_t size = 0;
 	ssize_t bytes_read = 0;
-	char *string = NULL, *aux = NULL;
+	char *string;
 	int com_count = 0;
 
 	dir_path = _get_path(environ);
 	while (1)
 	{
+		string = NULL;
 		if (isatty(STDIN_FILENO) == 1)
 			if (write(0, "$ ", 2) < 0)
 				exit(0);
@@ -25,29 +26,67 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		com_count++;
 		if (bytes_read == EOF)
 			free(string), exit(0);
-		aux = string;
-		while (*aux != '\0')
+		while (*string != '\0')
 		{
-			if (*aux != ' ' && *aux != '\t')
+			if (*string != ' ' && *string != '\t')
 				break;
-			aux++;
+			string++;
 		}
-		if (*aux == '\n' || *aux == ' ' || *aux == '\t' ||
-		    (*aux == '.' && aux[1] == '\n'))
+		if (validate_com(string) == -1)
 			continue;
 		argv = create_mal(size);
-		get_flags(argv, aux);
+		get_flags(argv, string);
 		argv[0] = _strchr_echo(argv[0], '\"');
-		aux = _strchr_echo(aux, '\"');
-		if (detect_slash('/', aux) == 1 || (aux[0] == '.' && aux[1] == '.' &&
-			 aux[2] == '\0'))
-			error_perm(aux, av, com_count);
+		string = _strchr_echo(string, '\"');
+		if (detect_slash('/', string) == 1 || (string[0] == '.' && string[1] == '.' &&
+			 string[2] == '\0'))
+			error_perm(string, av, com_count);
 		else
 		{
-		if (_strchr(aux) == 0)
-			verify_dir(argv, aux, environ, av, com_count, 1);
-		else
-			exec_path(argv, aux, environ, av, com_count, dir_path); }
+			if (_strchr(string) == 0)
+				verify_dir(argv, string, environ, av, com_count, 1);
+			else
+				exec_path(argv, string, environ, av, com_count, dir_path); }
 		free_mal(argv);
+		if (!*string)
+			free(string);
 	}
 	return (0); }
+
+int validate_com(char *aux)
+{
+	if (*aux == '\n' || *aux == ' ' || *aux == '\t' ||
+		(*aux == '.' && aux[1] == '\n'))
+		return(-1);
+	return(0);
+}
+
+char *_clean_line(char *aux)
+{
+	int w, x, i;
+	char buffer[1024], *extra = buffer;
+
+	for (i = 0; i <1024; i++)
+		buffer[i] = '\0';
+	for (w = 0; aux[w]; w++)
+	{
+		if (aux[w] != ' ' && aux[w] != '\t')
+			break;
+	}
+	printf("posicion: %i\n", w);
+	for (x = 0; aux[x + w]; x++)
+	{
+		extra[x] = aux[x + w];
+	}
+	extra[x] = '\0';
+	printf("extra: %s", extra);
+	printf("Longitudes: aux->%i - extra->%i\n", _strlen(aux), _strlen(extra));
+	free(aux);
+	return (extra);
+		/*while (*string != '\0')
+	{
+		if (*string != ' ' && *string != '\t')
+			break;
+		string++;
+	}*/
+}

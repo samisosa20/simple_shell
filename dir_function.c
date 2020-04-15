@@ -123,7 +123,6 @@ void run_path(char *aux, char *value, char **argv,
 		bandera = 0;
 		if (stat(value, &stats) == 0)
 		{
-			//argv[0] = value;
 			exec_dir(argv, value, environ, av, com_count, 2);
 			break;
 		}

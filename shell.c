@@ -12,12 +12,13 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 	char **argv, *dir_path;
 	size_t size = 0;
 	ssize_t bytes_read = 0;
-	char *string = NULL, *aux = NULL;
+	char *string, *aux;
 	int com_count = 0;
 
 	dir_path = _get_path(environ);
 	while (1)
 	{
+		string = NULL, aux = NULL;
 		if (isatty(STDIN_FILENO) == 1)
 			if (write(0, "$ ", 2) < 0)
 				exit(0);
@@ -30,8 +31,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		{
 			if (*aux != ' ' && *aux != '\t')
 				break;
-			aux++;
-		}
+			aux++; }
 		if (*aux == '\n' || *aux == ' ' || *aux == '\t' ||
 			(*aux == '.' && aux[1] == '\n'))
 			continue;
@@ -48,10 +48,13 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			verify_dir(argv, aux, environ, av, com_count, 1);
 		else
 			exec_path(argv, aux, environ, av, com_count, dir_path); }
-		free_mal(argv);
-	}
+		free_mal(argv), free(string); }
 	return (0); }
-
+/**
+ * validate_com - validate command
+ * @aux: unused.
+ * Return: 0 is ok and -1 ko
+ */
 int validate_com(char *aux)
 {
 	if (*aux == '\n' || *aux == ' ' || *aux == '\t' ||

@@ -25,8 +25,6 @@ void get_flags(char **argv, char *string)
 	char delimit[] = " \t";
 	char *token = strtok(string, delimit);
 
-	printf("token 0 = %s\n", token);
-
 	if (_strcmp(token, "/bin/echo") == 0 || _strcmp(token, "echo") == 0)
 	{
 		while (token != NULL)

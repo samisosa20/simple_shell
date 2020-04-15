@@ -33,7 +33,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			aux++;
 		}
 		if (*aux == '\n' || *aux == ' ' || *aux == '\t' ||
-			(*aux == '.' && aux[1] != '.'))
+		    (*aux == '.' && aux[1] == '\n'))
 			continue;
 		argv = create_mal(size);
 		get_flags(argv, aux);
@@ -48,5 +48,6 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			verify_dir(argv, aux, environ, av, com_count, 1);
 		else
 			exec_path(argv, aux, environ, av, com_count, dir_path); }
-		free_mal(argv); }
+		free_mal(argv);
+	}
 	return (0); }

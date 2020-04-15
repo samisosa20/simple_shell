@@ -111,7 +111,6 @@ void print_error(char **argv, char *av[], int com_count)
 	char com_num[1024];
 
 	_itos(com_count, com_num, 0, 1);
-	printf("%s\n", av[0]);
 	if (write(2, av[0], _strlen(av[0])) < 0)
 		exit(127);
 	if (write(2, ": ", 2) < 0)

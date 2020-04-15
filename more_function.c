@@ -24,19 +24,24 @@ int _strcmp(char *s1, char *s2)
 * @argv: Pointer to free
 * @value: value to exit
 * @string: pointer to free
+* @copy_path: pointer to free
 * Return: pointer.
 */
-void _salir(char **argv, char *value, char *string)
+void _salir(char **argv, char *value, char *string, char *copy_path)
 {
 	int n;
 
 
 	if (argv[1] == NULL)
-		free(value), free(string), free_mal(argv), exit(0);
+	{
+		free(value), free(copy_path), free(string);
+		free_mal(argv), exit(0);
+	}
 	else
 	{
 		n = _atoi(argv[1]);
-		free(value), free(string), free_mal(argv), exit(n);
+		free(value), free(copy_path), free(string);
+		free_mal(argv), exit(n);
 	}
 }
 /**

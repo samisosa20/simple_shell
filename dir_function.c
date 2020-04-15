@@ -103,7 +103,7 @@ void run_path(char *aux, char *value, char **argv,
 	int bandera;
 
 	if (_strcmp(argv[0], "exit") == 0)
-		_salir(argv, value, string);
+		_salir(argv, value, string, copy_path);
 	_strcpy(copy_path, aux);
 	bandera = 0;
 	if (*copy_path == ':')

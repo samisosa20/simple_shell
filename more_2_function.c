@@ -51,18 +51,6 @@ void _itos(long int num, char *string, int cont, int sign)
 		_itos(num, string + 1, cont + 1, sign);
 	}
 }
-/**
-* _strchr_echo - a function that locates a character in a string
-* @s: pointer that locate a character.
-* @c: character.
-* Return: pointer.
-*/
-char *_strchr_echo(char *s, char c)
-{
-	if (*s == c)
-		s = strtok(s, "\"");
-	return (s);
-}
 
 /**
 * _get_path - a function that gets the path
@@ -95,4 +83,53 @@ char *_get_path(char **environ)
 		extra++;
 	}
 	return (extra);
+}
+
+/**
+* detect_slash - detects an slash or an space on the shell
+* @c: the slash or space
+* @string: the string that the user enter
+* Return: an int
+*/
+
+int detect_slash(char c, char *string)
+{
+	int i = 0;
+
+	while (string[i])
+	{
+	if (string[i] != c && string[i] != ' ')
+		return (0);
+	i++;
+	}
+	return (1);
+}
+
+/**
+* *error_perm - show error
+* @string: show argument and length
+* @av: name of the program
+* @com_count: line run
+* Return: pointer.
+*/
+
+void error_perm(char *string, char *av[], int com_count)
+{
+	char com_num[1024];
+
+	_itos(com_count, com_num, 0, 1);
+	if (write(2, av[0], _strlen(av[0])) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, com_num, _strlen(com_num)) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, string, _strlen(string)) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, "Permission denied\n", 19) < 0)
+		exit(127);
 }

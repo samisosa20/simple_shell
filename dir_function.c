@@ -11,7 +11,7 @@
  * Return: None
 */
 void exec_dir(char **argv, char *string, char **environ,
-		 char *av[], int com_count, int flag, int leng_ini)
+		 char *av[], int com_count, int flag)
 {
 	pid_t my_pid;
 	char *aux;
@@ -33,13 +33,6 @@ void exec_dir(char **argv, char *string, char **environ,
 		{
 			error_ex(string, av, com_count);
 			free_mal(argv);
-			printf("L ini: %d\n", leng_ini);
-			printf("L fin: %d\n", _strlen(string));
-			if (leng_ini !=  _strlen(string))
-				--string;
-			if (*string != '\"')
-				++string;
-			printf("L fin 2: %d\n", _strlen(string));
 			free(string);
 			exit(126);
 		}
@@ -51,7 +44,7 @@ void exec_dir(char **argv, char *string, char **environ,
 	}
 	else
 	{
-		perror("Error3"); /*corregir mensaje de salida*/
+		perror("Error3");
 		exit(1);
 	}
 }
@@ -97,7 +90,7 @@ void run_path(char *aux, char *value, char **argv,
 		if (stat(value, &stats) == 0)
 		{
 			argv[0] = value;
-			exec_dir(argv, value, environ, av, com_count, 2, 10000);
+			exec_dir(argv, value, environ, av, com_count, 2);
 			break;
 		}
 		token = strtok(NULL, COLON);
@@ -105,7 +98,7 @@ void run_path(char *aux, char *value, char **argv,
 	if (token == NULL)
 	{
 		print_error(argv, av, com_count);
-		if (write(2, "not found\n", 11) < 0)
+		if (write(2, "not found\n", 10) < 0)
 			exit(127);
 	}
 }
@@ -124,21 +117,28 @@ void exec_path(char **argv, char *string, char **environ,
 		char *av[], int com_count, char *dir_path)
 {
 	char *value, *copy_path;
-	int i;
-	struct stat stats;
 
-	if (stat(PATH_DIR, &stats) == 0)
-	{
-		i = stats.st_size;
-		value = malloc(sizeof(char) * i);
+	value = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
 		if (value == NULL)
 			exit(90);
-		copy_path = malloc(sizeof(char) * _strlen(dir_path));
+		copy_path = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
 		if (copy_path == NULL)
 			exit(90);
-	}
 	run_path(dir_path, value, argv, string, environ,
 			av, com_count, copy_path);
 	free(value);
 	free(copy_path);
+}
+
+/**
+* _strchr_echo - a function that locates a character in a string
+* @s: pointer that locate a character.
+* @c: character.
+* Return: pointer.
+*/
+char *_strchr_echo(char *s, char c)
+{
+	if (*s == c)
+		s = strtok(s, "\"");
+	return (s);
 }

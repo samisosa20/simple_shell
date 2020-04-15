@@ -19,10 +19,10 @@ void verify_dir(char **argv, char *string, char **environ,
 	{
 		if (S_ISDIR(stats.st_mode) == 0)
 			exec_dir(argv, string, environ, av, com_count, flag);
-		else
+		else 
 		{
 			print_error(argv, av, com_count);
-			if (write(2, "not found\n", 10) < 0)
+			if (write(2, "Permission denied\n", 18) < 0)
 				exit(127);
 		}
 	}
@@ -123,7 +123,7 @@ void run_path(char *aux, char *value, char **argv,
 		bandera = 0;
 		if (stat(value, &stats) == 0)
 		{
-			argv[0] = value;
+			//argv[0] = value;
 			exec_dir(argv, value, environ, av, com_count, 2);
 			break;
 		}

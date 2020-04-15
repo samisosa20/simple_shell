@@ -7,7 +7,7 @@
  * @environ: variables.
  * Return: prints in screen $ and received commands
  */
-int main(_attribute_((unused)) int argc, char *av[], char **environ)
+int main(__attribute__((unused)) int argc, char *av[], char **environ)
 {
 	char **argv, *dir_path;
 	size_t size = 0;

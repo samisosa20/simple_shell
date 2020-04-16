@@ -50,6 +50,8 @@ int _salir(char **argv, char *string, int status_exit,
 					exit(127);
 				if (write(2, "\n", 1) < 0)
 					exit(127);
+				free_mal(argv);
+				free(string);
 				return (2);
 			}
 			else

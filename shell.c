@@ -35,21 +35,20 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			aux++; }
 		if (validate_com(aux) == -1)
 		{
-			free(aux);
+			free(string);
 			continue; }
 		argv = create_mal(size), get_flags(argv, aux);
 		argv[0] = _strchr_echo(argv[0], '\"'), aux = _strchr_echo(aux, '\"');
-		if (detect_slash('/', aux) == 1 || (aux[0] == '.' &&
-				aux[1] == '.' && aux[2] == '\0'))
+		if (detect_slash('/', aux) == 1 || (aux[0] == '.' && aux[1] == '.' &&
+			 aux[2] == '\0'))
 			error_perm(aux, av, com_count), nro_error = 127;
 		else
 		{
 		if (_strchr(aux) == 0)
-			nro_error = verify_dir(argv, aux, environ, av, com_count, 1, nro_error);
+			nro_error = verify_dir(argv, aux, environ, av, com_count, 1);
 		else
-			nro_error = exec_path(argv, aux, environ, av, com_count,
-				dir_path, nro_error); }
-		nro_error = _salir(argv, string, nro_error, av, com_count); }
+			nro_error = exec_path(argv, aux, environ, av, com_count, dir_path); }
+		_salir(argv, string); }
 	return (nro_error); }
 /**
  * validate_com - validate command
@@ -84,20 +83,4 @@ void perror_ex(char *av[], int com_count, char **argv)
 	if (write(2, ": ", 2) < 0)
 		exit(127);
 	perror(argv[0]);
-}
-/**
-* _isdigit - evaluate if the variable is a digit or not.
-* @c: input variable.
-* Return: Always 0.
-*/
-int _isdigit(char *c)
-{
-	int i;
-
-	for (i = 0; c[i]; i++)
-	{
-		if (c[i] < 48 || c[i] > 57)
-			return (0);
-	}
-	return (1);
 }

@@ -13,7 +13,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 	size_t size = 0;
 	ssize_t bytes_read = 0;
 	char *string, *aux;
-	int com_count = 0, nro_error = 0;
+	int com_count = 0, status_exit = 0;
 
 	dir_path = _get_path(environ);
 	while (1)
@@ -41,15 +41,15 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		argv[0] = _strchr_echo(argv[0], '\"'), aux = _strchr_echo(aux, '\"');
 		if (detect_slash('/', aux) == 1 || (aux[0] == '.' && aux[1] == '.' &&
 			 aux[2] == '\0'))
-			error_perm(aux, av, com_count), nro_error = 127;
+			error_perm(aux, av, com_count), status_exit = 127;
 		else
 		{
 		if (_strchr(aux) == 0)
-			nro_error = verify_dir(argv, aux, environ, av, com_count, 1);
+			status_exit = verify_dir(argv, aux, environ, av, com_count, 1, status_exit);
 		else
-			nro_error = exec_path(argv, aux, environ, av, com_count, dir_path); }
-		_salir(argv, string); }
-	return (nro_error); }
+			status_exit = exec_path(argv, aux, environ, av, com_count, dir_path, status_exit); }
+		status_exit = _salir(argv, string, status_exit); }
+	return (status_exit); }
 /**
  * validate_com - validate command
  * @aux: unused.

@@ -13,7 +13,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 	size_t size = 0;
 	ssize_t bytes_read = 0;
 	char *string, *aux;
-	int com_count = 0;
+	int com_count = 0, nro_error = 0;
 
 	dir_path = _get_path(environ);
 	while (1)
@@ -21,10 +21,12 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		string = NULL, aux = NULL;
 		if (isatty(STDIN_FILENO) == 1)
 			if (write(0, "$ ", 2) < 0)
-				exit(0);
+				break;
 		bytes_read = getline(&string, &size, stdin), com_count++;
 		if (bytes_read == EOF)
-			free(string), exit(2);
+		{
+			free(string);
+			break; }
 		aux = string;
 		while (*aux != '\0')
 		{
@@ -35,21 +37,19 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		{
 			free(string);
 			continue; }
-		argv = create_mal(size);
-		get_flags(argv, aux);
-		argv[0] = _strchr_echo(argv[0], '\"');
-		aux = _strchr_echo(aux, '\"');
+		argv = create_mal(size), get_flags(argv, aux);
+		argv[0] = _strchr_echo(argv[0], '\"'), aux = _strchr_echo(aux, '\"');
 		if (detect_slash('/', aux) == 1 || (aux[0] == '.' && aux[1] == '.' &&
 			 aux[2] == '\0'))
 			error_perm(aux, av, com_count);
 		else
 		{
 		if (_strchr(aux) == 0)
-			verify_dir(argv, aux, environ, av, com_count, 1);
+			nro_error = verify_dir(argv, aux, environ, av, com_count, 1);
 		else
-			exec_path(argv, aux, environ, av, com_count, dir_path); }
+			nro_error = exec_path(argv, aux, environ, av, com_count, dir_path); }
 		_salir(argv, string); }
-	return (0); }
+	return (nro_error); }
 /**
  * validate_com - validate command
  * @aux: unused.

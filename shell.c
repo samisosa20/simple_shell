@@ -12,13 +12,13 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 	char **argv, *dir_path;
 	size_t size = 0;
 	ssize_t bytes_read = 0;
-	char *string, *aux;
+	char *string;
 	int com_count = 0, nro_error = 0;
 
 	dir_path = _get_path(environ);
 	while (1)
 	{
-		string = NULL, aux = NULL;
+		string = NULL;
 		if (isatty(STDIN_FILENO) == 1)
 			if (write(0, "$ ", 2) < 0)
 				break;
@@ -27,28 +27,28 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		{
 			free(string);
 			break; }
-		aux = string;
-		while (*aux != '\0')
+		while (*string != '\0')
 		{
-			if (*aux != ' ' && *aux != '\t')
+			if (*string != ' ' && *string != '\t')
 				break;
-			aux++; }
-		if (validate_com(aux) == -1)
+			string++; }
+		if (validate_com(string) == -1)
 		{
 			free(string);
 			continue; }
-		argv = create_mal(size), get_flags(argv, aux);
-		argv[0] = _strchr_echo(argv[0], '\"'), aux = _strchr_echo(aux, '\"');
-		if (detect_slash('/', aux) == 1 || (aux[0] == '.' && aux[1] == '.' &&
-			 aux[2] == '\0'))
-			error_perm(aux, av, com_count), nro_error = 127;
+		argv = create_mal(size), get_flags(argv, string);
+		argv[0] = _strchr_echo(argv[0], '\"'), string = _strchr_echo(string, '\"');
+		if (detect_slash('/', string) == 1 || (string[0] == '.' &&
+				string[1] == '.' && string[2] == '\0'))
+			error_perm(string, av, com_count), nro_error = 127;
 		else
 		{
-		if (_strchr(aux) == 0)
-			nro_error = verify_dir(argv, aux, environ, av, com_count, 1);
+		if (_strchr(string) == 0)
+			nro_error = verify_dir(argv, string, environ, av, com_count, 1, nro_error);
 		else
-			nro_error = exec_path(argv, aux, environ, av, com_count, dir_path); }
-		_salir(argv, string); }
+			nro_error = exec_path(argv, string, environ, av, com_count,
+				dir_path, nro_error); }
+		nro_error = _salir(argv, string, nro_error, av, com_count); }
 	return (nro_error); }
 /**
  * validate_com - validate command
@@ -83,4 +83,20 @@ void perror_ex(char *av[], int com_count, char **argv)
 	if (write(2, ": ", 2) < 0)
 		exit(127);
 	perror(argv[0]);
+}
+/**
+* _isdigit - evaluate if the variable is a digit or not.
+* @c: input variable.
+* Return: Always 0.
+*/
+int _isdigit(char *c)
+{
+	int i;
+
+	for (i = 0; c[i]; i++)
+	{
+		if (c[i] < 48 || c[i] > 57)
+			return (0);
+	}
+	return (1);
 }

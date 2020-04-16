@@ -19,7 +19,7 @@ void verify_dir(char **argv, char *string, char **environ,
 	{
 		if (S_ISDIR(stats.st_mode) == 0)
 			exec_dir(argv, string, environ, av, com_count, flag);
-		else 
+		else
 		{
 			print_error(argv, av, com_count);
 			if (write(2, "Permission denied\n", 18) < 0)
@@ -102,8 +102,6 @@ void run_path(char *aux, char *value, char **argv,
 	struct stat stats;
 	int bandera;
 
-	if (_strcmp(argv[0], "exit") == 0)
-		_salir(argv, value, string, copy_path);
 	_strcpy(copy_path, aux);
 	bandera = 0;
 	if (*copy_path == ':')
@@ -132,9 +130,12 @@ void run_path(char *aux, char *value, char **argv,
 	}
 	if (token == NULL)
 	{
-		print_error(argv, av, com_count);
-		if (write(2, "not found\n", 10) < 0)
-			exit(127);
+		if (_strcmp(argv[0], "exit") != 0)
+		{
+			print_error(argv, av, com_count);
+			if (write(2, "not found\n", 10) < 0)
+				exit(127);
+		}
 	}
 }
 

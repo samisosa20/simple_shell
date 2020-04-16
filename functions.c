@@ -46,7 +46,6 @@ void get_flags(char **argv, char *string)
 	{
 		while (token != NULL)
 		{
-			
 			arguments[i] = token;
 			token = strtok(NULL, delimit);
 			i++;

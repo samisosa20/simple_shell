@@ -116,7 +116,7 @@ void run_path(char *aux, char *value, char **argv,
 		if (bandera == 1)
 			_strcat(value, pwd), _strcat(value, argv[0]);
 		else if (bandera == 2)
-			 _strcat(value, argv[0]);
+			value = argv[0];
 		else
 		{
 			_strcpy(value, token);
@@ -151,7 +151,7 @@ void run_path(char *aux, char *value, char **argv,
 void exec_path(char **argv, char *string, char **environ,
 		char *av[], int com_count, char *dir_path)
 {
-	char *value, *copy_path;
+	char *value = NULL, *copy_path = NULL;
 
 	value = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
 		if (value == NULL)

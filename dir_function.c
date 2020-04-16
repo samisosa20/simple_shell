@@ -120,7 +120,7 @@ int run_path(char *aux, char *value, char **argv,
 		if (bandera == 1)
 			_strcat(value, pwd), _strcat(value, argv[0]);
 		else if (bandera == 2)
-			value = argv[0];
+			_strcpy(value, argv[0]);
 		else
 		{
 			_strcpy(value, token);

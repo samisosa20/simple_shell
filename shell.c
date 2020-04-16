@@ -9,10 +9,9 @@
  */
 int main(__attribute__((unused)) int argc, char *av[], char **environ)
 {
-	char **argv, *dir_path;
+	char **argv, *dir_path, *string, *aux;
 	size_t size = 0;
 	ssize_t bytes_read = 0;
-	char *string, *aux;
 	int com_count = 0, status_exit = 0;
 
 	dir_path = _get_path(environ);
@@ -27,8 +26,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		{
 			free(string);
 			break; }
-		aux = string;
-		while (*aux != '\0')
+		aux = string, while (*aux != '\0')
 		{
 			if (*aux != ' ' && *aux != '\t')
 				break;
@@ -40,14 +38,16 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		argv = create_mal(size), get_flags(argv, aux);
 		argv[0] = _strchr_echo(argv[0], '\"'), aux = _strchr_echo(aux, '\"');
 		if (detect_slash('/', aux) == 1 || (aux[0] == '.' && aux[1] == '.' &&
-			 aux[2] == '\0'))
-			error_perm(aux, av, com_count), status_exit = 127;
+				aux[2] == '\0'))
+			error_perm(aux, av, com_count), status_exit = 126;
 		else
 		{
-		if (_strchr(aux) == 0)
-			status_exit = verify_dir(argv, aux, environ, av, com_count, 1, status_exit);
-		else
-			status_exit = exec_path(argv, aux, environ, av, com_count, dir_path, status_exit); }
+			if (_strchr(aux) == 0)
+				status_exit = verify_dir(argv, aux, environ, av, com_count, 1,
+							status_exit);
+			else
+				status_exit = exec_path(argv, aux, environ, av, com_count, dir_path,
+							status_exit); }
 		status_exit = _salir(argv, string, status_exit, av, com_count); }
 	return (status_exit); }
 /**

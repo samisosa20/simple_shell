@@ -10,28 +10,31 @@
  * @flag: know who call
  * Return: None
 */
-void verify_dir(char **argv, char *string, char **environ,
+int verify_dir(char **argv, char *string, char **environ,
 		  char *av[], int com_count, int flag)
 {
 	struct stat stats;
+	int status_exit = 0;
 
 	if (stat(argv[0], &stats) == 0)
 	{
 		if (S_ISDIR(stats.st_mode) == 0)
-			exec_dir(argv, string, environ, av, com_count, flag);
+			status_exit = exec_dir(argv, string, environ, av, com_count, flag);
 		else
 		{
 			print_error(argv, av, com_count);
 			if (write(2, "Permission denied\n", 18) < 0)
-				exit(126);
+				return (127);
+			return (126);
 		}
 	}
 	else
 	{
 		print_error(argv, av, com_count);
 		if (write(2, "not found\n", 10) < 0)
-			exit(127);
+			return (127);
 	}
+	return (status_exit);
 }
 
 /**
@@ -44,12 +47,12 @@ void verify_dir(char **argv, char *string, char **environ,
  * @flag: know who call
  * Return: None
 */
-void exec_dir(char **argv, char *string, char **environ,
+int exec_dir(char **argv, char *string, char **environ,
 		 char *av[], int com_count, int flag)
 {
 	pid_t my_pid;
 	char *aux;
-	int j;
+	int j, status_exit = -1;
 
 	if (flag == 1)
 		aux = string;
@@ -68,16 +71,20 @@ void exec_dir(char **argv, char *string, char **environ,
 			error_ex(string, av, com_count);
 			free_mal(argv);
 			free(string);
-			exit(126);
-		}
+			exit(126); }
 	}
 	else if (my_pid > 0)
 	{
-		if (wait(0) < 0)
+		if (wait(&status_exit) < 0)
+		{
 			perror_ex(av, com_count, argv);
+			return (2); }
 	}
 	else
+	{
 		perror_ex(av, com_count, argv);
+		return (2); }
+	return (status_exit / 255);
 }
 /**
  * run_path - run dir path
@@ -91,13 +98,13 @@ void exec_dir(char **argv, char *string, char **environ,
  * @copy_path: copy path
  * Return: dir path
 */
-void run_path(char *aux, char *value, char **argv,
+int run_path(char *aux, char *value, char **argv,
 		   char *string, char **environ,
 		   char *av[], int com_count, char *copy_path)
 {
 	char *token, pwd[] = "./";
 	struct stat stats;
-	int bandera;
+	int bandera, status_exit = 0;
 
 	_strcpy(copy_path, aux);
 	bandera = 0;
@@ -120,9 +127,8 @@ void run_path(char *aux, char *value, char **argv,
 		bandera = 0;
 		if (stat(value, &stats) == 0)
 		{
-			exec_dir(argv, value, environ, av, com_count, 2);
-			break;
-		}
+			status_exit = exec_dir(argv, value, environ, av, com_count, 2);
+			break; }
 		token = strtok(NULL, COLON);
 	}
 	if (token == NULL)
@@ -132,8 +138,10 @@ void run_path(char *aux, char *value, char **argv,
 			print_error(argv, av, com_count);
 			if (write(2, "not found\n", 10) < 0)
 				exit(127);
+			return (127);
 		}
 	}
+	return (status_exit);
 }
 
 /**
@@ -146,10 +154,11 @@ void run_path(char *aux, char *value, char **argv,
  * @dir_path: dir path
  * Return: None
 */
-void exec_path(char **argv, char *string, char **environ,
+int exec_path(char **argv, char *string, char **environ,
 		char *av[], int com_count, char *dir_path)
 {
 	char *value = NULL, *copy_path = NULL;
+	int status_exit = 0;
 
 	value = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
 		if (value == NULL)
@@ -157,10 +166,11 @@ void exec_path(char **argv, char *string, char **environ,
 		copy_path = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
 		if (copy_path == NULL)
 			exit(90);
-	run_path(dir_path, value, argv, string, environ,
+	status_exit = run_path(dir_path, value, argv, string, environ,
 			av, com_count, copy_path);
 	free(value);
 	free(copy_path);
+	return (status_exit);
 }
 
 /**

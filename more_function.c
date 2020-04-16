@@ -24,9 +24,12 @@ int _strcmp(char *s1, char *s2)
 * @argv: Pointer to free
 * @string: pointer to free
 * @status_exit: status_exit
+* @av: name of the program
+* @com_count: line run
 * Return: pointer.
 */
-int _salir(char **argv, char *string, int status_exit)
+int _salir(char **argv, char *string, int status_exit,
+				char *av[], int com_count)
 {
 	int n;
 
@@ -40,8 +43,22 @@ int _salir(char **argv, char *string, int status_exit)
 		else
 		{
 			n = _atoi(argv[1]);
-			free_mal(argv), free(string);
-			exit(n);
+			if (n < 0 || _isdigit(argv[1]) == 0)
+			{
+				error_ex(string, av, com_count);
+				if (write(2, argv[1], _strlen(argv[1])) < 0)
+					exit(127);
+				if (write(2, "\n", 1) < 0)
+					exit(127);
+				free_mal(argv);
+				free(string);
+				return (2);
+			}
+			else
+			{
+				free_mal(argv), free(string);
+				exit(n);
+			}
 		}
 	}
 	else
@@ -106,10 +123,16 @@ void error_ex(char *string, char *av[], int com_count)
 		exit(127);
 	if (write(2, string, _strlen(string)) < 0)
 		exit(127);
-	if (write(2, ": ", 2) < 0)
-		exit(127);
-	if (write(2, "not found\n", 10) < 0)
-		exit(127);
+	if (_strcmp(string, "exit") == 0)
+	{
+		if (write(2, ": Illegal number: ", 18) < 0)
+			exit(127);
+	}
+	else
+	{
+		if (write(2, ": not found\n", 12) < 0)
+			exit(127);
+	}
 }
 /**
  * print_error - print errors

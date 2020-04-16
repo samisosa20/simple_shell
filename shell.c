@@ -48,7 +48,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 			status_exit = verify_dir(argv, aux, environ, av, com_count, 1, status_exit);
 		else
 			status_exit = exec_path(argv, aux, environ, av, com_count, dir_path, status_exit); }
-		status_exit = _salir(argv, string, status_exit); }
+		status_exit = _salir(argv, string, status_exit, av, com_count); }
 	return (status_exit); }
 /**
  * validate_com - validate command
@@ -83,4 +83,20 @@ void perror_ex(char *av[], int com_count, char **argv)
 	if (write(2, ": ", 2) < 0)
 		exit(127);
 	perror(argv[0]);
+}
+/**
+* _isdigit - evaluate if the variable is a digit or not.
+* @c: input variable.
+* Return: Always 0.
+*/
+int _isdigit(char *c)
+{
+	int i;
+
+	for (i = 0; c[i]; i++)
+	{
+		if (c[i] < 48 || c[i] > 57)
+			return (0);
+	}
+	return (1);
 }

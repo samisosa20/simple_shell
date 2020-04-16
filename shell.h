@@ -32,7 +32,8 @@ int run_path(char *aux, char *value, char **argv, char *string,
 				char *av[], int com_count, char *copy_path, int status_exit);
 int _strcmp(char *s1, char *s2);
 int _atoi(char *s);
-int _salir(char **argv, char *string, int status_exit);
+int _salir(char **argv, char *string, int status_exit,
+				char *av[], int com_count);
 void print_error(char **argv, char *av[], int com_count);
 void error_ex(char *string, char *av[], int com_count);
 void _itos(long int num, char *string, int cont, int sign);
@@ -43,4 +44,5 @@ void error_perm(char *string, char *av[], int com_count);
 int validate_com(char *aux);
 char *_clean_line(char *aux);
 void perror_ex(char *av[], int com_count, char **argv);
+int _isdigit(char *c);
 #endif

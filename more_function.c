@@ -22,26 +22,32 @@ int _strcmp(char *s1, char *s2)
 /**
 * *_salir - exit function
 * @argv: Pointer to free
-* @value: value to exit
 * @string: pointer to free
-* @copy_path: pointer to free
 * Return: pointer.
 */
-void _salir(char **argv, char *value, char *string, char *copy_path)
+void _salir(char **argv, char *string)
 {
 	int n;
 
 
-	if (argv[1] == NULL)
+	if (_strcmp(argv[0], "exit") == 0)
 	{
-		free(value), free(copy_path), free(string);
-		free_mal(argv), exit(0);
+		if (argv[1] == NULL)
+		{
+			free_mal(argv), free(string);
+			exit(0);
+		}
+		else
+		{
+			n = _atoi(argv[1]);
+			free_mal(argv), free(string);
+			exit(n);
+		}
 	}
 	else
 	{
-		n = _atoi(argv[1]);
-		free(value), free(copy_path), free(string);
-		free_mal(argv), exit(n);
+		free_mal(argv);
+		free(string);
 	}
 }
 /**

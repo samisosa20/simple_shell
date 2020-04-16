@@ -32,7 +32,7 @@ void run_path(char *aux, char *value, char **argv, char *string,
 				char *av[], int com_count, char *copy_path);
 int _strcmp(char *s1, char *s2);
 int _atoi(char *s);
-void _salir(char **argv, char *value, char *string, char *copy_path);
+void _salir(char **argv, char *string);
 void print_error(char **argv, char *av[], int com_count);
 void error_ex(char *string, char *av[], int com_count);
 void _itos(long int num, char *string, int cont, int sign);

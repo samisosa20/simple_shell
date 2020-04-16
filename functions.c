@@ -6,7 +6,7 @@
 */
 int _strlen(char *s)
 {
-	int i;
+	int i = 0;
 
 	for (i = 0; s[i] != '\0'; i++)
 		;
@@ -75,8 +75,8 @@ int _strchr(char *s)
 */
 char *_strcat(char *dest, char *src)
 {
-	size_t dest_len = _strlen(dest);
-	size_t i;
+	int dest_len = _strlen(dest);
+	int i;
 
 	for (i = 0 ; src[i] != '\0' ; i++)
 		dest[dest_len + i] = src[i];

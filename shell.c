@@ -24,7 +24,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 				exit(0);
 		bytes_read = getline(&string, &size, stdin), com_count++;
 		if (bytes_read == EOF)
-			free(string), exit(0);
+			free(string), exit(2);
 		aux = string;
 		while (*aux != '\0')
 		{
@@ -61,4 +61,26 @@ int validate_com(char *aux)
 		(*aux == '.' && aux[1] == '\n'))
 		return (-1);
 	return (0);
+}
+/**
+* *perror_ex - show error
+* @av: name of the program
+* @com_count: line run
+* @argv: double pointer
+* Return: pointer.
+*/
+void perror_ex(char *av[], int com_count, char **argv)
+{
+	char com_num[1024];
+
+	_itos(com_count, com_num, 0, 1);
+	if (write(2, av[0], _strlen(av[0])) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	if (write(2, com_num, _strlen(com_num)) < 0)
+		exit(127);
+	if (write(2, ": ", 2) < 0)
+		exit(127);
+	perror(argv[0]);
 }

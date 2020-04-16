@@ -8,13 +8,13 @@
  * @av: command
  * @com_count: nro of line
  * @flag: know who call
+ * @status_exit: status_exit
  * Return: None
 */
 int verify_dir(char **argv, char *string, char **environ,
-		  char *av[], int com_count, int flag)
+		  char *av[], int com_count, int flag, int status_exit)
 {
 	struct stat stats;
-	int status_exit = 0;
 
 	if (stat(argv[0], &stats) == 0)
 	{
@@ -96,15 +96,16 @@ int exec_dir(char **argv, char *string, char **environ,
  * @av: command
  * @com_count: nro of line
  * @copy_path: copy path
+ * @status_exit: status_exit
  * Return: dir path
 */
 int run_path(char *aux, char *value, char **argv,
 		   char *string, char **environ,
-		   char *av[], int com_count, char *copy_path)
+		   char *av[], int com_count, char *copy_path, int status_exit)
 {
 	char *token, pwd[] = "./";
 	struct stat stats;
-	int bandera, status_exit = 0;
+	int bandera;
 
 	_strcpy(copy_path, aux);
 	bandera = 0;
@@ -152,13 +153,13 @@ int run_path(char *aux, char *value, char **argv,
  * @av: command
  * @com_count: nro of line
  * @dir_path: dir path
+ * @status_exit: status_exit
  * Return: None
 */
 int exec_path(char **argv, char *string, char **environ,
-		char *av[], int com_count, char *dir_path)
+		char *av[], int com_count, char *dir_path, int status_exit)
 {
 	char *value = NULL, *copy_path = NULL;
-	int status_exit = 0;
 
 	value = malloc(sizeof(char) * _strlen(dir_path) + _strlen(string));
 		if (value == NULL)
@@ -167,7 +168,7 @@ int exec_path(char **argv, char *string, char **environ,
 		if (copy_path == NULL)
 			exit(90);
 	status_exit = run_path(dir_path, value, argv, string, environ,
-			av, com_count, copy_path);
+			av, com_count, copy_path, status_exit);
 	free(value);
 	free(copy_path);
 	return (status_exit);

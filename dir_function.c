@@ -23,7 +23,7 @@ void verify_dir(char **argv, char *string, char **environ,
 		{
 			print_error(argv, av, com_count);
 			if (write(2, "Permission denied\n", 18) < 0)
-				exit(127);
+				exit(126);
 		}
 	}
 	else
@@ -74,13 +74,10 @@ void exec_dir(char **argv, char *string, char **environ,
 	else if (my_pid > 0)
 	{
 		if (wait(0) < 0)
-			perror("Error4");
+			perror_ex(av, com_count, argv);
 	}
 	else
-	{
-		perror("Error3");
-		exit(1);
-	}
+		perror_ex(av, com_count, argv);
 }
 /**
  * run_path - run dir path

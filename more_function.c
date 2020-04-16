@@ -29,13 +29,12 @@ void _salir(char **argv, char *string)
 {
 	int n;
 
-
 	if (_strcmp(argv[0], "exit") == 0)
 	{
 		if (argv[1] == NULL)
 		{
 			free_mal(argv), free(string);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{

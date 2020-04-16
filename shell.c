@@ -41,7 +41,7 @@ int main(__attribute__((unused)) int argc, char *av[], char **environ)
 		argv[0] = _strchr_echo(argv[0], '\"'), aux = _strchr_echo(aux, '\"');
 		if (detect_slash('/', aux) == 1 || (aux[0] == '.' && aux[1] == '.' &&
 			 aux[2] == '\0'))
-			error_perm(aux, av, com_count);
+			error_perm(aux, av, com_count), nro_error = 127;
 		else
 		{
 		if (_strchr(aux) == 0)

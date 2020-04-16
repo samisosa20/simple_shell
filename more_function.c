@@ -23,9 +23,10 @@ int _strcmp(char *s1, char *s2)
 * *_salir - exit function
 * @argv: Pointer to free
 * @string: pointer to free
+* @status_exit: status_exit
 * Return: pointer.
 */
-void _salir(char **argv, char *string)
+int _salir(char **argv, char *string, int status_exit)
 {
 	int n;
 
@@ -34,7 +35,7 @@ void _salir(char **argv, char *string)
 		if (argv[1] == NULL)
 		{
 			free_mal(argv), free(string);
-			exit(EXIT_SUCCESS);
+			exit(status_exit);
 		}
 		else
 		{
@@ -47,6 +48,7 @@ void _salir(char **argv, char *string)
 	{
 		free_mal(argv);
 		free(string);
+		return (status_exit);
 	}
 }
 /**
